@@ -36,8 +36,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(i18n.init);
 
 // API v1
-app.use('/apiv1/authenticate', require('./routes/apiv1/authenticate'));
-app.use('/apiv1/anuncios', jwtAuth(), require('./routes/apiv1/anuncios'));
+app.use('/apiv1/auth', require('./routes/apiv1/authenticate'));
+app.use('/apiv1/adverts', jwtAuth(), require('./routes/apiv1/anuncios'));
 
 // Global Template variables
 app.locals.title = 'NodePop';
