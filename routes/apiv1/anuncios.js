@@ -65,10 +65,10 @@ router.get('/tags', function (req, res) {
 });
 
 router.get('/:id', (req, res, next) => {
-  Anuncio.findById(req.params.id)
-    .exec()
-    .then(anuncio => {
-      res.json({ ok: true, result: anuncio });
+  const filter = { _id: req.params.id };
+  Anuncio.list(filter)
+    .then(anuncios => {
+      res.json({ ok: true, result: anuncios.rows[0] });
     })
     .catch(err => next(err));
 });
