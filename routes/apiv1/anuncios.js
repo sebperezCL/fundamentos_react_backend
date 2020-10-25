@@ -68,7 +68,7 @@ router.get('/:id', (req, res, next) => {
   const filter = { _id: req.params.id };
   Anuncio.list(filter)
     .then(anuncios => {
-      res.json({ ok: true, result: anuncios.rows[0] });
+      res.json({ ok: true, result: anuncios.rows[0] || null });
     })
     .catch(err => next(err));
 });
