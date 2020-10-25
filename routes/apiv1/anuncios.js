@@ -48,9 +48,19 @@ router.get('/', (req, res, next) => {
 });
 
 router.get('/:id', (req, res, next) => {
-  Anuncio.list({ _id: req.params.id })
-    .then(anuncios => {
-      res.json({ ok: true, result: anuncios.rows[0] });
+  Anuncio.findById(req.params.id)
+    .exec()
+    .then(anuncio => {
+      res.json({ ok: true, result: anuncio });
+    })
+    .catch(err => next(err));
+});
+
+router.delete('/:id', (req, res, next) => {
+  Anuncio.findByIdAndRemove(req.params.id)
+    .exec()
+    .then(anuncio => {
+      res.json({ ok: true, result: anuncio });
     })
     .catch(err => next(err));
 });
