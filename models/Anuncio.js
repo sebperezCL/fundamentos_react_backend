@@ -11,7 +11,7 @@ const thumbnailRequester = new cote.Requester(
   {
     name: 'thumbnail creator client',
   },
-  { log: false, statusLogsEnabled: false },
+  { log: false, statusLogsEnabled: false }
 );
 
 const anuncioSchema = mongoose.Schema({
@@ -43,7 +43,7 @@ anuncioSchema.statics.cargaJson = function (fichero, cb) {
       const anuncios = JSON.parse(data).anuncios;
       const numAnuncios = anuncios.length;
 
-      flow.serialArray(anuncios, Anuncio.createRecord, err => {
+      flow.serialArray(anuncios, Anuncio.createRecord, (err) => {
         if (err) return cb(err);
         return cb(null, numAnuncios);
       });
@@ -63,7 +63,7 @@ anuncioSchema.statics.list = async function (
   numRows,
   sortField,
   includeTotal,
-  cb,
+  cb
 ) {
   const query = Anuncio.find(filters);
   query.sort(sortField);
@@ -81,7 +81,7 @@ anuncioSchema.statics.list = async function (
   // poner ruta base a imagenes
   const ruta = configAnuncios.imagesURLBasePath;
   result.rows.forEach(
-    r => (r.photo = r.photo ? path.join(ruta, r.photo) : null),
+    (r) => (r.photo = r.photo ? path.join(ruta, r.photo) : null)
   );
 
   if (cb) return cb(null, result); // si me dan callback devuelvo los resultados por ahí
@@ -97,10 +97,10 @@ anuncioSchema.methods.setPhoto = async function (imageObject) {
   const dstPath = path.join(
     __dirname,
     '../public/images/anuncios',
-    imageObject.originalname,
+    `${this._id}${imageObject.originalname}`
   );
   await fs.copy(imageObject.path, dstPath);
-  this.photo = imageObject.originalname;
+  this.photo = `${this._id}${imageObject.originalname}`;
   thumbnailRequester.send({
     type: 'createThumbnail',
     image: dstPath,
