@@ -3,6 +3,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const upload = require('../../lib/multerConfig');
+const configAnuncios = require('../../local_config').anuncios;
+const path = require('path');
 const router = express.Router();
 const Anuncio = mongoose.model('Anuncio');
 
@@ -41,19 +43,21 @@ router.get('/', (req, res, next) => {
   }
 
   Anuncio.list(filters, start, limit, sort, includeTotal)
-    .then(anuncios => {
+    .then((anuncios) => {
       res.json({ ok: true, result: anuncios });
     })
-    .catch(err => next(err));
+    .catch((err) => next(err));
 });
 
 router.post('/', upload.single('photo'), async (req, res, next) => {
   try {
+    const ruta = configAnuncios.imagesURLBasePath;
     const anuncio = new Anuncio(req.body);
 
     await anuncio.setPhoto(req.file); // save image
 
     const saved = await anuncio.save();
+    saved.photo = saved.photo ? path.join(ruta, saved.photo) : saved.photo;
     res.json({ ok: true, result: saved });
   } catch (err) {
     next(err);
@@ -67,19 +71,19 @@ router.get('/tags', function (req, res) {
 router.get('/:id', (req, res, next) => {
   const filter = { _id: req.params.id };
   Anuncio.list(filter)
-    .then(anuncios => {
+    .then((anuncios) => {
       res.json({ ok: true, result: anuncios.rows[0] || null });
     })
-    .catch(err => next(err));
+    .catch((err) => next(err));
 });
 
 router.delete('/:id', (req, res, next) => {
   Anuncio.findByIdAndRemove(req.params.id)
     .exec()
-    .then(anuncio => {
+    .then((anuncio) => {
       res.json({ ok: true, result: anuncio });
     })
-    .catch(err => next(err));
+    .catch((err) => next(err));
 });
 
 module.exports = router;
