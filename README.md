@@ -1,3 +1,12 @@
+# Tarea despliegue de servidores
+
+## El front-end se encuentra en http://react.tausistemas.cl
+
+## El back-end se encuentra en http://api-practica.tausistemas.cl
+
+## Si se accde a esta IP 54.161.194.35 se encuentra también el front de React
+
+---
 
 # NodePop Avanzado
 
@@ -7,11 +16,11 @@ Api for the iOS/Android apps.
 
 ## Deploy
 
-### Install dependencies  
-    
+### Install dependencies
+
     npm install
 
-### Configure  
+### Configure
 
 Review lib/connectMongoose.js to set database configuration
 
@@ -22,7 +31,7 @@ Review lib/connectMongoose.js to set database configuration
 ## Start
 
 To start a single instance:
-    
+
     npm start
 
 To start in development mode:
@@ -39,17 +48,16 @@ To start in development mode:
 
 ## API v1 info
 
-
 ### Base Path
 
-The API can be used with the path: 
+The API can be used with the path:
 [API V1](/apiv1/anuncios)
 
 ### Language
 
-All requests that return error messages are localized to english, if you want to 
-change language make the request with the header accept-language set to other language, 
-i.e. Accept-Language: es 
+All requests that return error messages are localized to english, if you want to
+change language make the request with the header accept-language set to other language,
+i.e. Accept-Language: es
 
 ### Error example
 
@@ -63,7 +71,7 @@ i.e. Accept-Language: es
 
 ### GET /anuncios
 
-**Input Query**: 
+**Input Query**:
 
 start: {int} skip records  
 limit: {int} limit to records  
@@ -71,12 +79,12 @@ sort: {string} field name to sort by
 includeTotal: {bool} whether to include the count of total records without filters  
 tag: {string} tag name to filter  
 venta: {bool} filter by venta or not  
-precio: {range} filter by price range, examples 10-90, -90, 10-   
-nombre: {string} filter names beginning with the string  
+precio: {range} filter by price range, examples 10-90, -90, 10-  
+nombre: {string} filter names beginning with the string
 
 Input query example: ?start=0&limit=2&sort=precio&includeTotal=true&tag=mobile&venta=true&precio=-90&nombre=bi
 
-**Result:** 
+**Result:**
 
     {
       "ok": true,
@@ -99,12 +107,11 @@ Input query example: ?start=0&limit=2&sort=precio&includeTotal=true&tag=mobile&v
       }
     }
 
-
 ### GET /anuncios/tags
 
 Return the list of available tags for the resource anuncios.
 
-**Result:** 
+**Result:**
 
     {
       "ok": true,
